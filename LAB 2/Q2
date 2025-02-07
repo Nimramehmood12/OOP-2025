@@ -1,0 +1,109 @@
+// Nimra Mehmood
+// 24K-0807
+#include <iostream>
+using namespace std;
+
+int **dma(int rows, int cols)
+{
+    int **mat = new int *[rows];
+    for (int i = 0; i < rows; i++)
+    {
+        mat[i] = new int[cols];
+    }
+    return mat;
+}
+
+void input(int **mat, int rows, int cols)
+{
+    cout << "Enter elements of matrix (" << rows << "x" << cols << "):\n";
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cin >> mat[i][j];
+        }
+    }
+}
+
+int **add(int **matA, int **matB, int rows, int cols)
+{
+    int **result = dma(rows, cols);
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            result[i][j] = matA[i][j] + matB[i][j];
+        }
+    }
+    return result;
+}
+
+int **subtract(int **matA, int **matB, int rows, int cols)
+{
+    int **result = dma(rows, cols);
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (matA[i][j] > matB[i][j])
+            {
+                result[i][j] = matA[i][j] - matB[i][j];
+            }
+            else
+            {
+                result[i][j] = matB[i][j] - matA[i][j];
+            }
+        }
+    }
+    return result;
+}
+
+void display(int **mat, int rows, int cols, string name)
+{
+    cout << name << " matrix:\n";
+    for (int i = 0; i < rows; i++)
+    {
+        cout << " | ";
+        for (int j = 0; j < cols; j++)
+        {
+            cout << mat[i][j] << " | ";
+        }
+        cout << endl;
+    }
+}
+
+void release(int **mat, int rows)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        delete[] mat[i];
+    }
+    delete[] mat;
+    // cout<<"The memeory has been released";
+}
+int main()
+{
+    int rows, cols;
+
+    cout << "Enter number of rows and column: ";
+    cin >> rows >> cols;
+
+    int **matA = dma(rows, cols);
+    int **matB = dma(rows, cols);
+
+    input(matA, rows, cols);
+    input(matB, rows, cols);
+
+    int **sum = add(matA, matB, rows, cols);
+    int **difference = subtract(matA, matB, rows, cols);
+
+    display(sum, rows, cols, "Sum");
+    display(difference, rows, cols, "Difference");
+
+    release(matA, rows);
+    release(matB, rows);
+    release(sum, rows);
+    release(difference, rows);
+    cout << "The memeory has been released";
+    return 0;
+}
