@@ -1,0 +1,70 @@
+//Nimra Mehmood
+//24K-0807
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Book
+{
+    string title;
+    string author;
+    int year;
+};
+
+void input(Book *b, int no)
+{
+    for (int i = 0; i < no; i++)
+    {
+        cout << "Enter title of book " << i + 1 << ": ";
+        cin.ignore();
+        getline(cin, b[i].title);
+
+        cout << "Enter author of book " << i + 1 << ": ";
+        getline(cin, b[i].author);
+
+        cout << "Enter year of book " << i + 1 << ": ";
+        cin >> b[i].year;
+    }
+}
+
+void display(Book *b, int no, int year)
+{
+    cout << "\nBooks published after " << year << ":\n";
+    int f = 0;
+    for (int i = 0; i < no; i++)
+    {
+        if (b[i].year > year)
+        {
+            cout << "Title: " << b[i].title << ", Author: " << b[i].author << ", year: " << b[i].year << endl;
+            f = 1;
+        }
+    }
+    if (!f)
+    {
+        cout << "No books found.\n";
+    }
+}
+
+void release(Book *b)
+{
+    delete[] b;
+}
+int main()
+{
+    int no;
+    cout << "Enter the number of books:";
+    cin >> no;
+
+    Book *b = new Book[no];
+
+    input(b, no);
+
+    int year;
+    cout << "Enter year to find books published after it: ";
+    cin >> year;
+
+    display(b, no, year);
+    release(b);
+
+    return 0;
+}
