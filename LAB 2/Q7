@@ -1,0 +1,101 @@
+// Nimra Mehmood
+//   24K-0807
+#include <iostream>
+using namespace std;
+
+int **dma(int rows, int cols)
+{
+    int **mat = new int *[rows];
+    for (int i = 0; i < rows; i++)
+    {
+        mat[i] = new int[cols];
+    }
+    return mat;
+}
+
+void input(int **mat, int rows, int cols)
+{
+    cout << "Enter elements for (" << rows << "x" << cols << ")matrix\n";
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cin >> *(*(mat + i) + j);
+        }
+    }
+}
+
+void display(int **mat, int rows, int cols)
+{
+    cout << "Matrix\n";
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cout << *(*(mat + i) + j) << "|";
+        }
+        cout << endl;
+    }
+}
+
+int **multiply(int **mat1, int **mat2, int rows1, int cols1, int rows2, int cols2)
+{
+    int **result = dma(rows1, cols2);
+    for (int i = 0; i < rows1; i++)
+    {
+        for (int j = 0; j < cols2; j++)
+        {
+            *(*(result + i) + j) = 0;
+            for (int k = 0; k < cols1; k++)
+            {
+                *(*(result + i) + j) += (*(*(mat1 + i) + k)) * (*(*(mat2 + k) + j));
+            }
+        }
+    }
+    return result;
+}
+
+void free(int **mat, int rows)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        delete[] mat[i];
+    }
+    delete[] mat;
+}
+int main()
+{
+    int rows1, cols1, rows2, cols2;
+
+    cout << "Enter dimensions of first matrix:";
+    cin >> rows1 >> cols1;
+    cout << "Enter dimensions of second matrix:";
+    cin >> rows2 >> cols2;
+
+    if (cols1 != rows2)
+    {
+        cout << "Matrix multiplication is not possible.\n";
+        return 0;
+    }
+    int **mat1 = dma(rows1, cols1);
+    int **mat2 = dma(rows2, cols2);
+
+    input(mat1, rows1, cols1);
+    input(mat2, rows2, cols2);
+
+    cout << "First Matrix\n";
+    display(mat1, rows1, cols1);
+
+    cout << "Second Matrix\n";
+    display(mat2, rows2, cols2);
+
+    int **result = multiply(mat1, mat2, rows1, cols1, rows2, cols2);
+
+    cout << "\nResult ";
+    display(result, rows1, cols2);
+
+    free(mat1, rows1);
+    free(mat2, rows2);
+    free(result, rows1);
+}
+
