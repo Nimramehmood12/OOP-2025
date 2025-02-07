@@ -1,0 +1,64 @@
+// Nimra Mehmood
+// 24K-0807
+#include <iostream>
+using namespace std;
+
+void input(string *array, int no)
+{
+    cin.ignore();
+    for (int i = 0; i < no; i++)
+    {
+        cout << "Enter string " << i + 1 << ": ";
+        getline(cin, array[i]);
+    }
+}
+
+void display(string *array, int no, string name)
+{
+    cout << "\n"
+         << name << ":\n";
+    for (int i = 0; i < no; i++)
+    {
+        cout << array[i] << endl;
+    }
+}
+
+void sort(string *array, int no)
+{
+    for (int i = 0; i < no - 1; i++)
+    {
+        for (int j = 0; j < no - i - 1; j++)
+        {
+            if (array[j] > array[j + 1])
+            {
+                string temp;
+                temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void release(string *array)
+{
+    delete[] array;
+}
+
+int main()
+{
+    int no;
+    cout << "Enter the number of strings: ";
+    cin >> no;
+
+    string *array = new string[no];
+
+    input(array, no);
+    display(array, no, "Original strings");
+    sort(array, no);
+    display(array, no, "Sorted strings");
+    release(array);
+
+    cout << "Memory has been released.\n";
+    return 0;
+}
