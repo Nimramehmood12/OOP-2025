@@ -1,0 +1,53 @@
+// Nimra Mehmood
+//  24K-0807
+#include <iostream>
+using namespace std;
+
+void input(int *array, int no)
+{
+    cout << "Enter values:";
+    for (int i = 0; i < no; i++)
+    {
+        cin >> *(array + i);
+    }
+}
+
+void display(int *array, int no)
+{
+    cout << "Array of elements:";
+    for (int i = 0; i < no; i++)
+    {
+        cout << *(array + i) << " ";
+    }
+    cout << endl;
+}
+
+int sumArray(int *array, int no)
+{
+    int sum = 0;
+    for (int i = 0; i < no; i++)
+    {
+        sum += *(array + i);
+    }
+    return sum;
+}
+
+int main()
+{
+    int no;
+    cout << "Enter the number of elements:";
+    cin >> no;
+
+    int *array = new int[no];
+
+    input(array, no);
+
+    display(array, no);
+
+    int total = sumArray(array, no);
+    cout << "Sum of array elements: " << total << endl;
+
+    delete[] array;
+    cout << "Memory has beeen released.\n";
+    return 0;
+}
