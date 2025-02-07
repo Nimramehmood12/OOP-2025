@@ -1,0 +1,79 @@
+// Nimra Mehmood
+//   24K-0807
+#include <iostream>
+using namespace std;
+
+int ***dma(int a, int b, int c)
+{
+    int ***array = new int **[a];
+    for (int i = 0; i < a; i++)
+    {
+        array[i] = new int *[b];
+        for (int j = 0; j < b; j++)
+        {
+            array[i][j] = new int[c];
+        }
+    }
+    return array;
+}
+
+void input(int ***array, int a, int b, int c)
+{
+    cout << "Enter " << a * b * c << " values";
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
+        {
+            for (int k = 0; k < c; k++)
+            {
+                cout << "Enter [" << i << "][" << j << "][" << k << "]:";
+                cin >> array[i][j][k];
+            }
+        }
+    }
+}
+void display(int ***array, int a, int b, int c)
+{
+    cout << "\n 3D array Elements:\n";
+    for (int i = 0; i < a; i++)
+    {
+        cout << "Side" << i + 1 << ":\n";
+        for (int j = 0; j < b; j++)
+        {
+            for (int k = 0; k < c; k++)
+            {
+                cout << array[i][j][k] << " | ";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+}
+void free(int ***array, int a, int b)
+{
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
+        {
+            delete[] array[i][j];
+        }
+        delete[] array[i];
+    }
+    delete[] array;
+    cout << "Memory has been released.";
+}
+int main()
+{
+    int a, b, c;
+    cout << "Enter elements a b c:";
+    cin >> a >> b >> c;
+
+    int ***array = dma(a, b, c);
+
+    input(array, a, b, c);
+
+    display(array, a, b, c);
+
+    free(array, a, b);
+    return 0;
+}
