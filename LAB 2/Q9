@@ -1,0 +1,72 @@
+// Nimra Mehmood
+//   24K-0807
+#include <iostream>
+using namespace std;
+
+struct Product
+{
+    int productID;
+    char name[50];
+    int quantity;
+    float price;
+};
+
+void input(Product *inventory, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nEnter details for Product " << i + 1 << ":\n";
+        cout << "Product ID: ";
+        cin >> inventory[i].productID;
+        cout << "Name: ";
+        cin.ignore();
+        cin.getline(inventory[i].name, 50);
+        cout << "Quantity: ";
+        cin >> inventory[i].quantity;
+        cout << "Price: ";
+        cin >> inventory[i].price;
+    }
+}
+
+float total(Product *inventory, int n)
+{
+    float totalValue = 0;
+    for (int i = 0; i < n; i++)
+    {
+        float productValue = inventory[i].quantity * inventory[i].price;
+        totalValue += productValue;
+        return totalValue;
+    }
+}
+
+void display(Product *inventory, int n)
+{
+    cout << "Product Inventory:\n";
+    cout << "-----------------------------------\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Product ID: " << inventory[i].productID << "\n";
+        cout << "Name: " << inventory[i].name << "\n";
+        cout << "Quantity: " << inventory[i].quantity << "\n";
+        cout << "Price: $" << inventory[i].price << "\n";
+        cout << "-----------------------------------\n";
+    }
+
+    cout << "Total Inventory Value: $" << total(inventory, n) << "\n";
+}
+int main()
+{
+    int n;
+    cout << "Enter the number of products: ";
+    cin >> n;
+
+    Product *inventory = new Product[n];
+
+    input(inventory, n);
+    display(inventory, n);
+
+    delete[] inventory;
+    cout << "Memory has been released.\n";
+
+    return 0;
+}
