@@ -1,0 +1,59 @@
+// Nimra Mehmood
+// 24K-0807
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Employee
+{
+    string name;
+    int hoursWorked;
+    double hourlyRate;
+};
+
+void input(Employee *e, int no)
+{
+    for (int i = 0; i < no; i++)
+    {
+        cout << "Enter details of employee " << i + 1 << ":\n";
+        cout << "Name: ";
+        cin.ignore();
+        getline(cin, e[i].name);
+
+        cout << "Hours worked " << ": ";
+        cin >> e[i].hoursWorked;
+
+        cout << "Hourly Rate" << ": ";
+        cin >> e[i].hourlyRate;
+    }
+}
+
+void salary(Employee *e, int no)
+{
+    cout << "\nEmployee Salary Details:\n";
+    for (int i = 0; i < no; i++)
+    {
+        double totalSalary = e[i].hoursWorked * e[i].hourlyRate;
+        cout << "Name: " << e[i].name << " | HoursWorked: " << e[i].hoursWorked << " | HoursRate: " << e[i].hourlyRate << " | Total salary: " << totalSalary << endl;
+    }
+}
+
+void release(Employee *e)
+{
+    delete[] e;
+    cout << "Memory has been released.\n";
+}
+int main()
+{
+    int no;
+    cout << "Enter the number of employees:";
+    cin >> no;
+
+    Employee *e = new Employee[no];
+
+    input(e, no);
+    salary(e, no);
+    release(e);
+
+    return 0;
+}
