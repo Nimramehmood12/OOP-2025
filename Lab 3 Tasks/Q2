@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+class FitnessTracter
+{
+private:
+    string userName;
+    int dailyStepGoal;
+    int stepsTaken;
+    float caloriesBurned;
+
+public:
+    FitnessTracter()
+    {
+        stepsTaken = 0;
+        caloriesBurned = 0.0;
+    }
+    void setDetails()
+    {
+        cout << "Enter your name:";
+        getline(cin, userName);
+        cout << "Enter your daily step goal:";
+        cin >> dailyStepGoal;
+    }
+    float calCalories(int step)
+    {
+        return step * 0.3;
+    }
+    void logSteps()
+    {
+        int steps;
+        cout << "Enter steps taken today: ";
+        cin >> steps;
+        if (steps > 0)
+        {
+            stepsTaken += steps;
+            caloriesBurned = calCalories(steps);
+        }
+    }
+    void displayProgress()
+    {
+        cout << "\n Fitness track of " << userName << endl;
+        cout << "Steps taken:" << stepsTaken << endl;
+        cout << "Calories Burned: " << caloriesBurned << endl;
+        if (stepsTaken >= dailyStepGoal)
+        {
+            cout << "Goal achieved. Keep it up!";
+        }
+        else
+        {
+            cout << "Keep going " << (dailyStepGoal - stepsTaken) << " steps to go";
+        }
+    }
+};
+
+int main()
+{
+
+    FitnessTracter fit;
+    fit.setDetails();
+    fit.logSteps();
+    fit.displayProgress();
+}
