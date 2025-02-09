@@ -1,0 +1,140 @@
+#include <iostream>
+using namespace std;
+
+class Library
+{
+private:
+    string BookList[30];
+    bool avalaibleBooks[30];
+    int totalBook;
+
+public:
+    Library()
+    {
+        totalBook = 0;
+    }
+
+    void addBook()
+    {
+        if (totalBook >= 30)
+        {
+            cout << "Library is full! Cannot add more books.\n";
+            return;
+        }
+        cout << "Enter book title: ";
+        cin.ignore();
+        getline(cin, BookList[totalBook]);
+        avalaibleBooks[totalBook] = true;
+        totalBook++;
+        cout << "Book added successfulyyy" << endl;
+    }
+    void lendBook()
+    {
+        if (totalBook == 0)
+        {
+            cout << "No books available in library\n";
+            return;
+        }
+        cout << "Available books:\n";
+        for (int i = 0; i < totalBook; i++)
+        {
+            if (avalaibleBooks[i])
+            {
+                cout << i + 1 << ". " << BookList[i] << "\n";
+            }
+        }
+        int choice;
+        cout << "Enter book number to borrow: ";
+        cin >> choice;
+        choice--;
+
+        if (choice >= 0 && choice << totalBook && avalaibleBooks[choice])
+        {
+            avalaibleBooks[choice] = false;
+            cout << "You borrowed: " << BookList[choice] << "\n";
+        }
+        else
+        {
+            cout << "Invalid choice or book alredy borrowed" << endl;
+        }
+    }
+
+    void returnBook()
+    {
+        cout << "Borrowed books: " << endl;
+        bool b = false;
+        for (int i = 0; i < totalBook; i++)
+        {
+            if (!avalaibleBooks[i])
+            {
+                cout << i + 1 << ". " << BookList[i] << "\n";
+            }
+        }
+        if (!b)
+        {
+            cout << "No books are borrowed. ";
+            return;
+        }
+        int choice;
+        cout << "Enter book number to return: ";
+        cin >> choice;
+        choice--;
+        if (choice >= 0 && choice << totalBook && avalaibleBooks[choice])
+        {
+            avalaibleBooks[choice] = true;
+            cout << "You returned: " << BookList[choice] << "\n";
+        }
+        else
+        {
+            cout << "Invalid choice or book was not borrowed" << endl;
+        }
+    }
+
+    void display()
+    {
+        cout << "-------Library Inventory---------" << endl;
+        for (int i = 0; i < totalBook; i++)
+        {
+            cout << BookList[i] << " (" << (avalaibleBooks[i] ? "Available" : "Borrowd") << ") " << endl;
+        }
+    }
+};
+
+int main()
+{
+    Library hamza;
+    int choice;
+
+    do
+    {
+        cout << "Library Management System\n";
+        cout << "1. Add Book\n";
+        cout << "2. Lend Book\n";
+        cout << "3. Return Book\n";
+        cout << "4. Display Books\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            hamza.addBook();
+        }
+        else if (choice == 2)
+        {
+            hamza.lendBook();
+        }
+        else if (choice == 3)
+        {
+            hamza.returnBook();
+        }
+        else if (choice == 4)
+        {
+            hamza.display();
+        }
+        else
+        {
+            return 0;
+        }
+    } while (choice != 5);
+    return 0;
+}
