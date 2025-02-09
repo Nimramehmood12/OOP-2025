@@ -1,0 +1,108 @@
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class Wallet
+{
+private:
+    string OwnerName;
+    double totalBalance;
+    string transactionHistory[30];
+    int count;
+
+public:
+    Wallet()
+    {
+        totalBalance = 0;
+        count = 0;
+    }
+
+    void setname()
+    {
+        cout << "Enter owner's name: ";
+        getline(cin, OwnerName);
+    }
+    void addMoney()
+    {
+        double amount;
+        cout << "Enter amount to add: ";
+        cin >> amount;
+
+        if (amount > 0)
+        {
+            totalBalance += amount;
+            transactionHistory[count] = "Amount added";
+            count++;
+            transactionHistory[count] = to_string(amount);
+            count++;
+            cout << "Added successfully! New Balance:" << totalBalance << "\n";
+        }
+        else
+        {
+            cout << "Invalid amount!\n";
+        }
+    }
+    void spendMoney()
+    {
+        double amount;
+        cout << "Enter amount you want to spend: ";
+        cin >> amount;
+        if (amount > 0 && amount <= totalBalance)
+        {
+            totalBalance -= amount;
+            transactionHistory[count] = "Amount spended";
+            count++;
+            transactionHistory[count] = to_string(amount);
+            count++;
+            cout << "Spend! Remaining balance: " << totalBalance << endl;
+        }
+        else
+        {
+            cout << "Insufficient balance!\n";
+        }
+    }
+
+    void warning()
+    {
+        if (totalBalance <= 150)
+        {
+            cout << "Warning : Low balance!\n";
+        }
+    }
+    void displayTransactions()
+    {
+        cout << "----------Transaction History--------:\n";
+        for (int i = 0; i < count; i++)
+        {
+            cout << transactionHistory[i] << "\n";
+        }
+        cout << "Current Balance: " << totalBalance << "\n";
+        warning();
+    }
+};
+int main()
+{
+    Wallet saadWallet;
+    saadWallet.setname();
+
+    int choice;
+    do
+    {
+        cout << "\n1. Add Money\n2. Spend Money\n3. View transaction history\n4. Exit\n";
+        cout << "Choose an option:";
+        cin >> choice;
+        if (choice == 1)
+        {
+            saadWallet.addMoney();
+        }
+        else if (choice == 2)
+        {
+            saadWallet.spendMoney();
+        }
+        else if (choice == 3)
+        {
+            saadWallet.displayTransactions();
+        }
+    } while (choice != 4);
+    return 0;
+}
