@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+class Car
+{
+private:
+    string brand;
+    string model;
+    double price;
+    bool availability;
+
+public:
+    Car()
+    {
+        brand = "Unknown";
+        model = "Generic";
+        price = 0.0;
+        availability = true;
+    }
+
+    Car(string b, string m, double p, bool a)
+    {
+        brand = b;
+        model = m;
+        price = p;
+        availability = a;
+    }
+
+    Car(Car &c)
+    {
+        brand = c.brand;
+        model = c.model;
+        price = c.price;
+        availability = c.availability;
+        cout << "Copy constructor called. " << endl;
+    }
+    ~Car()
+    {
+        cout << "Destructor called:";
+    }
+    void updateCarDetails(string b, string m, double p)
+    {
+        brand = b;
+        model = m;
+        price = p;
+    }
+    void displayDetails()
+    {
+        cout << "Brand: " << brand << "\nModel: " << model << "\nRental price: " << price << "\nAvailavle: " << (availability ? "Yes" : "No") << endl;
+    }
+};
+int main()
+{
+    Car c1("HOnda", "Civic", 65763, true);
+    cout << "\nOriginal Car Details:\n";
+    c1.displayDetails();
+
+    Car c2 = c1;
+    cout << "\nCopied Car Details:\n";
+    c2.displayDetails();
+
+    c1.updateCarDetails("Suzan", "Audi", 335.9);
+    cout << "\nAfter modifying Original Car Details:\n";
+    c1.displayDetails();
+
+    cout << "\nCopied Car Details After original modification:\n";
+    c2.displayDetails();
+
+    return 0;
+};
