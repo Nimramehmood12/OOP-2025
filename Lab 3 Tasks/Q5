@@ -1,0 +1,143 @@
+#include <iostream>
+using namespace std;
+
+class MusicPlayer
+{
+private:
+    string playList[20];
+    string currentPlayingSong;
+    int total;
+
+public:
+    MusicPlayer()
+    {
+        total = 0;
+        currentPlayingSong = "None";
+    }
+    void addsong()
+    {
+        if (total >= 20)
+        {
+            cout << "Playlist is full! Cannot add more songs.\n";
+            return;
+        }
+        cout << "Enter song name:";
+        cin.ignore();
+        getline(cin, playList[total]);
+        total++;
+        cout << "Song added successfully!\n";
+    }
+    void removesong()
+    {
+        if (total == 0)
+        {
+            cout << "No songs in the playlsit to remove!" << endl;
+            return;
+        }
+        cout << "Playlist:\n";
+        for (int i = 0; i < total; i++)
+        {
+            cout << i + 1 << "." << playList[i] << endl;
+        }
+        int choice;
+        cout << "Enter the number of the song to remove: ";
+        cin >> choice;
+        choice--;
+        if (choice >= 0 && choice < total)
+        {
+            cout << "Removed: " << playList[choice] << endl;
+
+            for (int i = choice; i < total - 1; i++)
+            {
+                playList[i] = playList[i + 1];
+            }
+            total--;
+        }
+        if (currentPlayingSong == playList[choice])
+        {
+            currentPlayingSong = "None";
+        }
+    }
+
+    void playSong()
+    {
+        if (total == 0)
+        {
+            cout << "No songs in the playlsit to play!" << endl;
+            return;
+        }
+        cout << "Playlist:\n";
+        for (int i = 0; i < total; i++)
+        {
+            cout << i + 1 << "." << playList[i] << endl;
+        }
+        int choice;
+        cout << "Enter the number of the song to play: ";
+        cin >> choice;
+        choice--;
+        if (choice >= 0 && choice < total)
+        {
+            currentPlayingSong = playList[choice];
+            cout << "Now playing: " << currentPlayingSong << endl;
+        }
+        else
+        {
+            cout << "Invalid choice!" << endl;
+        }
+    }
+
+    void displayPlayList()
+    {
+        if (total == 0)
+        {
+            cout << "No songs in the playlsit to play!" << endl;
+            return;
+        }
+        cout << "Playlist:\n";
+        for (int i = 0; i < total; i++)
+        {
+            cout << i + 1 << "." << playList[i] << endl;
+        }
+        cout << "Current playing: " << currentPlayingSong << endl;
+    }
+};
+int main()
+{
+    MusicPlayer imran;
+    int choice;
+
+    do
+    {
+        cout << "\n Music Playlist Manager \n";
+        cout << "1. Add Song\n";
+        cout << "2. Remove Song\n";
+        cout << "3. Play Song\n";
+        cout << "4. Display Playlist\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            imran.addsong();
+            break;
+        case 2:
+            imran.removesong();
+            break;
+        case 3:
+            imran.playSong();
+            break;
+        case 4:
+            imran.displayPlayList();
+            break;
+        case 5:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid choice! Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
