@@ -34,11 +34,11 @@ public:
         double tprice;
         if (days >= 5 && days < 10)
         {
-            tprice = price * days * 5 / 100;
+            tprice = price * days * 0.95;
         }
         else if (days >= 10)
         {
-            tprice = price * days * 10 / 100;
+            tprice = price * days * 0.9;
         }
         return tprice;
     }
