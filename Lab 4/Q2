@@ -1,60 +1,72 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-class Car{
-    private:
+class Car
+{
+private:
     string brand;
     string model;
     double price;
     bool availability;
 
-    public:
-    Car(){
-        brand="Unknown";
-        model="Generic";
-        price=0.0;
-        availability=true;
+public:
+    Car()
+    {
+        brand = "Unknown";
+        model = "Generic";
+        price = 0.0;
+        availability = true;
     }
 
-    Car(string b,string m,double p,bool a){
-        brand=b;
-        model=m;
-        price=p;
-        availability=a;
+    Car(string b, string m, double p, bool a)
+    {
+        brand = b;
+        model = m;
+        price = p;
+        availability = a;
     }
 
-    void displayDetails(){
-        cout<<"Brand: "<<brand<<"\nModel: "<<model<<"\nRental price: "<<price<<"\nAvailavle: "<<(availability?"Yes":"No")<<endl;
+    void displayDetails()
+    {
+        cout << "Brand: " << brand << "\nModel: " << model << "\nRental price: " << price << "\nAvailavle: " << (availability ? "Yes" : "No") << endl;
     }
-    double applyDiscount(int days){
+    double applyDiscount(int days)
+    {
         double tprice;
-        if(days>=5&&days<10){
-            tprice=price*days*5/100;
+        if (days >= 5 && days < 10)
+        {
+            tprice = price * days * 5 / 100;
         }
-        else if(days>=10){
-            tprice=price*days*10/100;
+        else if (days >= 10)
+        {
+            tprice = price * days * 10 / 100;
         }
         return tprice;
     }
-    void rentalrequest(int days){
-        if(availability){
-            double cost=applyDiscount(days);
-            cout<<"Rented! for "<<days<<" days.Total cost after discount: "<<cost<<endl;
-            availability=false;
-        }else{
-            cout<<"Not available";
+    void rentalrequest(int days)
+    {
+        if (availability)
+        {
+            double cost = applyDiscount(days);
+            cout << "Rented! for " << days << " days.Total cost after discount: " << cost << endl;
+            availability = false;
+        }
+        else
+        {
+            cout << "Not available";
         }
     }
 };
-int main(){
-  Car c1("HOnda","Civic",65763,true);
-  Car c2("Suzan","Audi",335.9,false);
+int main()
+{
+    Car c1("HOnda", "Civic", 65763, true);
+    Car c2("Suzan", "Audi", 335.9, false);
 
-  c1.displayDetails();
-  c2.displayDetails();
+    c1.displayDetails();
+    c2.displayDetails();
 
-  c1.rentalrequest(8);
-  c1.displayDetails();
+    c1.rentalrequest(8);
+    c1.displayDetails();
 
-  c1.rentalrequest(5);
-  return 0;
+    c1.rentalrequest(5);
+    return 0;
 };
