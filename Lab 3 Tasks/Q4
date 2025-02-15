@@ -1,0 +1,108 @@
+#include <iostream>
+using namespace std;
+
+class Car
+{
+private:
+    string brand;
+    string model;
+    double fuelCapacity;
+    double currentFuel;
+    double rate;
+
+public:
+    Car()
+    {
+        fuelCapacity = 35;
+        currentFuel = 20;
+        rate = 0.06;
+    }
+
+    void setDetails()
+    {
+        cout << "Enter car brand:";
+        cin >> brand;
+        cout << "Enter car model:";
+        cin >> model;
+        cin.ignore();
+        cout << "Enter fuel tank capacity(liters):";
+        cin >> fuelCapacity;
+        cout << "Enter current fuel(liters):";
+        cin >> currentFuel;
+        cout << "Enter fuel consumption per km(liters): ";
+        cin >> rate;
+    }
+
+    void drive()
+    {
+        double distance;
+        cout << "Enter distance you drive(km): ";
+        cin >> distance;
+
+        double fuelNeeded = rate * distance;
+        if (fuelNeeded > currentFuel)
+        {
+            cout << "Not enough fuel. You can drive only" << (currentFuel / rate) << "km." << endl;
+        }
+        else
+        {
+            cout << "Drive " << distance << "km.Fuel Consumption: " << fuelNeeded << "liters" << endl;
+        }
+    }
+    void refuel()
+    {
+        double fuelAmount;
+        cout << "Enter amount of fuel to add(liters):";
+        cin >> fuelAmount;
+
+        currentFuel += fuelAmount;
+        cout << " Refueled " << fuelAmount << " liters" << endl;
+    }
+    void checkFuelStutus()
+    {
+        cout << "Fuel Status:\n";
+        cout << "Brand: " << brand << "Model: " << model << "\n";
+        cout << "Current Fuel Level: " << currentFuel << " liters\n";
+        cout << "Fuel Capacity: " << fuelCapacity << " liters\n";
+
+        if (currentFuel < fuelCapacity * 0.06)
+        {
+            cout << "Warning: Low fuel!Please refuel soon.\n";
+        }
+    }
+};
+int main()
+{
+    Car Zoya;
+    int c;
+    Zoya.setDetails();
+    do
+    {
+        cout << "\n Car Fuel Management\n";
+        cout << "1. Drive Car\n";
+        cout << "2. Refuel\n";
+        cout << "3. Check Fuel Status\n";
+        cout << "4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> c;
+        switch (c)
+        {
+        case 1:
+            Zoya.drive();
+            break;
+        case 2:
+            Zoya.refuel();
+            break;
+        case 3:
+            Zoya.checkFuelStutus();
+            break;
+        case 4:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid choice! Try again.\n";
+        }
+    } while (c != 4);
+
+    return 0;
+}
