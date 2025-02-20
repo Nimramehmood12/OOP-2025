@@ -28,7 +28,7 @@ public:
         revenue = 0.0;
     }
 
-    Car(Car &c)
+    Car(const Car &c)
     {
         brand = c.brand;
         model = c.model;
