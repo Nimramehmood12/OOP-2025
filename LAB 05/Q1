@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+class Apartment
+{
+private:
+    int id;
+    string address;
+    string *owner;
+
+public:
+    Apartment(int i, string a, string n) : id(i), address(a), owner(new string(n)) {}
+
+    Apartment(const Apartment& obj)
+    {
+        id = obj.id;
+        address = obj.address;
+        owner = new string(*obj.owner);
+    }
+    void change(string n)
+    {
+        *owner = n;
+    }
+    void display() const
+    {
+        cout << "Apartment ID: " << id << "\nAddress: " << address
+             << "\nOwner: " << *owner << "\n\n";
+    }
+    ~Apartment()
+    {
+        delete owner;
+    }
+};
+int main()
+{
+    Apartment a1(1, "Rafay aam", "Ali");
+    Apartment a2(2, "Gulshan", "Sara");
+    Apartment a3(a1);
+
+    a3.change("John");
+    cout << "Original Apartments\n";
+    a1.display();
+    a2.display();
+
+    cout << "Copied Apartment (Transferred to a new agent):\n";
+    a3.display();
+}
