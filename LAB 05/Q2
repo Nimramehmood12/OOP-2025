@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+class Student
+{
+private:
+    int id;
+    string name;
+    int *scores;
+    int num;
+
+public:
+    Student(int i, string n, int *s, int o) : id(i), name(n), num(o)
+    {
+        scores = new int[num];
+        for (int i = 0; i < num; i++)
+        {
+            scores[i] = s[i];
+        }
+    }
+
+    Student(const Student &obj) : id(obj.id),
+                                  name(obj.name), num(obj.num)
+    {
+        scores = new int[num];
+        for (int i = 0; i < num; i++)
+        {
+            scores[i] = obj.scores[i];
+        }
+    }
+
+    void display() const
+    {
+        cout << id << endl;
+        cout << name << endl;
+        cout << "Scores:\n";
+        for (int i = 0; i < num; i++)
+        {
+            cout << scores[i] << " " << endl;
+        }
+    }
+    ~Student()
+    {
+        delete[] scores;
+    }
+};
+int main()
+{
+
+    int scores1[] = {85, 90, 78};
+    Student student1(101, "Sara", scores1, 3);
+
+    Student student2 = student1;
+
+    cout << "Original Student Record:\n";
+    student1.display();
+
+    cout << "Copied Student Record for Verification:\n";
+    student2.display();
+
+    return 0;
+}
