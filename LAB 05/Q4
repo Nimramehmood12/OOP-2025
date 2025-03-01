@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+class Alarm
+{
+private:
+    string level;
+
+public:
+    Alarm(string l)
+    {
+        level = l;
+    }
+    void display() const
+    {
+        cout << "Alarm System level: " << level << endl;
+    }
+};
+
+class SmartHome
+{
+private:
+    string id;
+    string location;
+    Alarm a;
+
+public:
+    SmartHome(string i, string loc, string l) : id(i), location(loc), a(l)
+    {
+    }
+
+    void display() const
+    {
+        cout << "Smart home id: " << id << "\nLocation: " << location << endl;
+        a.display();
+    }
+};
+int main()
+{
+    SmartHome h("A-098", "Rawalpindi", "Medium");
+
+    h.display();
+}
