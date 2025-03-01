@@ -1,0 +1,109 @@
+
+#include <iostream>
+using namespace std;
+
+class Product
+{
+private:
+    int id;
+    string name;
+    int stock;
+
+public:
+    Product(int i = 0, string n = "", int q = 0) : id(i), name(n), stock(q) {}
+
+    int getid() const
+    {
+        return id;
+    }
+    string getName() const
+    {
+        return name;
+    }
+
+    void display() const
+    {
+        cout << id << " " << name << " " << stock << endl;
+    }
+};
+
+class Warehouse
+{
+private:
+    Product p[5];
+    int c;
+
+public:
+    Warehouse() : c(0) {}
+
+    void add(int id, string name, int q)
+    {
+        if (c < 5)
+        {
+            p[c++] = Product(id, name, q);
+        }
+    }
+
+    void sort()
+    {
+        for (int i = 0; i < c - 1; i++)
+        {
+            for (int j = 0; j < c - i - 1; j++)
+            {
+                if (p[j].getName() > p[j + 1].getName())
+                {
+                    Product temp = p[j];
+                    p[j] = p[j + 1];
+                    p[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    void search(int id) const
+    {
+        for (int i = 0; i < c; i++)
+        {
+            if (p[i].getid() == id)
+            {
+                cout << "Product Found";
+            }
+        }
+    }
+
+    void display() const
+    {
+        cout << "Warehouse Inventory\n";
+        for (int i = 0; i < c; i++)
+        {
+            p[i].display();
+        }
+        cout << endl;
+    }
+};
+int main()
+{
+    Warehouse warehouse;
+
+    // Adding products
+    warehouse.add(101, "Table", 10);
+    warehouse.add(102, "Laptop", 5);
+    warehouse.add(103, "Apple", 20);
+    warehouse.add(104, "Chair", 15);
+    warehouse.add(105, "Television", 8);
+
+    cout << "\nBefore Sorting:\n";
+    warehouse.display();
+
+    warehouse.sort();
+
+    cout << "After Sorting:\n";
+    warehouse.display();
+
+    int searchId;
+    cout << "Enter Product ID to Search: ";
+    cin >> searchId;
+    warehouse.search(searchId);
+
+    return 0;
+}
