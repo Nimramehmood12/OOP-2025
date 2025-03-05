@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+class Device
+{
+protected:
+    int deviceID;
+    bool status;
+
+public:
+    Device(int deviceID, bool status)
+    {
+        this->deviceID = deviceID;
+        this->status = status;
+    }
+    void displayDetails()
+    {
+        cout << "Device Details: " << deviceID << endl;
+        cout << "Status: " << (status ? "On" : "Off") << endl;
+    }
+};
+
+class SmartPhone : public Device
+{
+protected:
+    float screensize;
+
+public:
+    SmartPhone(int deviceID, bool status, float screensize) : Device(deviceID, status)
+    {
+        this->screensize = screensize;
+    }
+    void displayDetails()
+    {
+        Device::displayDetails();
+        cout << "screensize " << screensize << endl;
+    }
+};
+
+class SmartWatch : public SmartPhone
+{
+protected:
+    bool heartRateMonitor;
+
+public:
+    SmartWatch(int deviceID, bool status, float screensize, bool heartRateMonitor)
+        : SmartPhone(deviceID, status, screensize)
+    {
+        this->heartRateMonitor = heartRateMonitor;
+    }
+
+    void displayDetails()
+    {
+        SmartPhone::displayDetails();
+        cout << "Heart Rate Monitor: " << (heartRateMonitor ? "Yes" : "No") << endl;
+    }
+};
+
+class SmartWearable : public SmartWatch
+{
+private:
+    int stepCounter;
+
+public:
+    SmartWearable(int deviceID, bool status, float screensize, bool heartRateMonitor, int stepCounter) : SmartWatch(deviceID, status, screensize, heartRateMonitor)
+    {
+        this->stepCounter = stepCounter;
+    }
+
+    void displayDetails()
+    {
+        SmartWatch::displayDetails();
+        cout << "Step Counter: " << stepCounter << " steps" << endl;
+    }
+};
+
+int main()
+{
+    int deviceID, stepCounter;
+    bool status, heartRateMonitor;
+    float screensize;
+
+    cout << "Enter Device ID: ";
+    cin >> deviceID;
+    cout << "Enter Status (1 for On, 0 for Off): ";
+    cin >> status;
+    cout << "Enter Screen Size (in inches): ";
+    cin >> screensize;
+    cout << "Does it have a Heart Rate Monitor? (1 for Yes, 0 for No): ";
+    cin >> heartRateMonitor;
+    cout << "Enter Step Counter value: ";
+    cin >> stepCounter;
+
+    SmartWearable w(deviceID, status, screensize, heartRateMonitor, stepCounter);
+
+    cout << "Smart Wearable Device Details:" << endl;
+    w.displayDetails();
+
+    return 0;
+}
