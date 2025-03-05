@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+class Account
+{
+protected:
+    int accountNumber;
+    float balance;
+
+public:
+    Account(int accountNumber, float balance)
+    {
+        this->accountNumber = accountNumber;
+        this->balance = balance;
+    }
+    void displayDetails()
+    {
+        cout << "Account Number: " << accountNumber << endl;
+        cout << "Balance: " << balance << endl;
+    }
+};
+
+class SavingAccount : public Account
+{
+private:
+    float interestRate;
+
+public:
+    SavingAccount(int accountNumber, float balance, float interestRate) : Account(accountNumber, balance)
+    {
+        this->interestRate = interestRate;
+    }
+    void displayDetails()
+    {
+        Account::displayDetails();
+        cout << "Interest Rate: " << interestRate << endl;
+    }
+};
+
+class CheckingAccount : public Account
+{
+private:
+    float overdraftLimit;
+
+public:
+    CheckingAccount(int accountNumber, float balance, float overdraftLimit) : Account(accountNumber, balance)
+    {
+        this->overdraftLimit = overdraftLimit;
+    }
+    void displayDetails()
+    {
+        Account::displayDetails();
+        cout << "Over draft Limit: " << overdraftLimit << endl;
+    }
+};
+int main()
+{
+    int accountNumber;
+    float balance, interestRate, overdraftLimit;
+
+    cout << "Enter Savings Account Number: ";
+    cin >> accountNumber;
+    cout << "Enter Balance: ";
+    cin >> balance;
+    cout << "Enter Interest Rate: ";
+    cin >> interestRate;
+    SavingAccount s(accountNumber, balance, interestRate);
+
+    cout << "Enter Checking Account Number: ";
+    cin >> accountNumber;
+    cout << "Enter Balance: ";
+    cin >> balance;
+    cout << "Enter Overdraft Limit: ";
+    cin >> overdraftLimit;
+    CheckingAccount c(accountNumber, balance, overdraftLimit);
+
+    cout << "Savings Account Details:" << endl;
+    s.displayDetails();
+    cout << endl;
+
+    cout << "Checking Account Details:" << endl;
+    c.displayDetails();
+
+    return 0;
+}
