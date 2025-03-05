@@ -2,6 +2,7 @@
 using namespace std;
 class Employee
 {
+    protected:
     string name;
     float salary;
 
@@ -19,6 +20,7 @@ public:
 };
 class Manager : public Employee
 {
+    private:
     float bonus;
 
 public:
