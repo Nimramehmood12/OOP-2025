@@ -1,0 +1,98 @@
+#include <iostream>
+using namespace std;
+
+class Person
+{
+protected:
+    string name;
+    int age;
+
+public:
+    Person(string name, int age)
+    {
+        this->name = name;
+        this->age = age;
+    }
+    void displayDetails()
+    {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+    }
+};
+
+class Teacher : public Person
+{
+protected:
+    string subject;
+
+public:
+    Teacher(string name, int age, string subject) : Person(name, age)
+    {
+        this->subject = subject;
+    }
+    void displayDetails()
+    {
+        cout << "Subject: " << subject << endl;
+        Person::displayDetails();
+    }
+};
+
+class Researcher : public Person
+{
+protected:
+    string researchArea;
+
+public:
+    Researcher(string name, int age, string researchArea) : Person(name, age)
+    {
+        this->researchArea = researchArea;
+    }
+    void displayDetails()
+    {
+        cout << "Research Area: " << researchArea << endl;
+    }
+};
+
+class Professor : public Teacher, public Researcher
+{
+private:
+    int publications;
+
+public:
+    Professor(string name, int age, string subject, string researchArea, int publications)
+        : Teacher(name, age, subject), Researcher(name, age, researchArea)
+    {
+        this->publications = publications;
+    }
+
+    void displayDetails()
+    {
+        Teacher::displayDetails();
+        Researcher::displayDetails();
+        cout << "Publications: " << publications << endl;
+    }
+};
+
+int main()
+{
+    string name, subject, researchArea;
+    int age, publications;
+
+    cout << "Enter Professor's Name: ";
+    cin >> name;
+    cout << "Enter Age: ";
+    cin >> age;
+    cout << "Enter Subject Expertise: ";
+    cin >> subject;
+    cout << "Enter Research Area: ";
+    cin >> researchArea;
+    cout << "Enter Number of Publications: ";
+    cin >> publications;
+
+    Professor prof(name, age, subject, researchArea, publications);
+
+    cout << "\nProfessor Details:\n";
+    prof.displayDetails();
+
+    return 0;
+}
