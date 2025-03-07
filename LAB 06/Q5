@@ -19,7 +19,7 @@ public:
     }
 };
 
-class SmartPhone : public Device
+class SmartPhone :virtual public Device
 {
 protected:
     float screensize;
@@ -36,39 +36,41 @@ public:
     }
 };
 
-class SmartWatch : public SmartPhone
+class SmartWatch : virtual public Device
 {
 protected:
     bool heartRateMonitor;
 
 public:
-    SmartWatch(int deviceID, bool status, float screensize, bool heartRateMonitor)
-        : SmartPhone(deviceID, status, screensize)
+    SmartWatch(int deviceID, bool status, bool heartRateMonitor)
+        : Device(deviceID, status)
     {
         this->heartRateMonitor = heartRateMonitor;
     }
 
     void displayDetails()
-    {
-        SmartPhone::displayDetails();
-        cout << "Heart Rate Monitor: " << (heartRateMonitor ? "Yes" : "No") << endl;
+    {       
+         Device::displayDetails();
+        cout << "Heart Rate Monitor: " << (heartRateMonitor ? "Enabled" : "Disabled") << endl;
     }
 };
 
-class SmartWearable : public SmartWatch
+class SmartWearable : public SmartPhone,public SmartWatch
 {
 private:
     int stepCounter;
 
 public:
-    SmartWearable(int deviceID, bool status, float screensize, bool heartRateMonitor, int stepCounter) : SmartWatch(deviceID, status, screensize, heartRateMonitor)
+    SmartWearable(int deviceID, bool status, float screensize, bool heartRateMonitor, int stepCounter) :Device  (deviceID , status ),SmartPhone(deviceID, status, screensize), SmartWatch(deviceID, status, heartRateMonitor)
     {
         this->stepCounter = stepCounter;
     }
 
     void displayDetails()
     {
-        SmartWatch::displayDetails();
+        Device::displayDetails();
+        cout << "screensize " << screensize << endl;
+        cout << "Heart Rate Monitor: " << (heartRateMonitor ? "Enabled" : "Disabled") << endl;
         cout << "Step Counter: " << stepCounter << " steps" << endl;
     }
 };
