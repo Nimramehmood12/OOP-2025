@@ -20,7 +20,7 @@ public:
     }
 };
 
-class Teacher : public Person
+class Teacher :virtual public Person
 {
 protected:
     string subject;
@@ -32,12 +32,12 @@ public:
     }
     void displayDetails()
     {
-        cout << "Subject: " << subject << endl;
         Person::displayDetails();
+        cout << "Subject: " << subject << endl;
     }
 };
 
-class Researcher : public Person
+class Researcher : virtual public Person
 {
 protected:
     string researchArea;
@@ -49,6 +49,7 @@ public:
     }
     void displayDetails()
     {
+        Person::displayDetails();
         cout << "Research Area: " << researchArea << endl;
     }
 };
@@ -60,15 +61,16 @@ private:
 
 public:
     Professor(string name, int age, string subject, string researchArea, int publications)
-        : Teacher(name, age, subject), Researcher(name, age, researchArea)
+        :Person(name,age), Teacher(name, age, subject), Researcher(name, age, researchArea)
     {
         this->publications = publications;
     }
 
     void displayDetails()
     {
-        Teacher::displayDetails();
-        Researcher::displayDetails();
+        Person::displayDetails();
+        cout<<"Subject: "<<subject<<endl;
+        cout << "Research Area: " << researchArea << endl;
         cout << "Publications: " << publications << endl;
     }
 };
