@@ -1,0 +1,150 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string contactNumber;
+    string address;
+
+public:
+    Person(string n, int a, string contact, string addr = "N/A")
+        : name(n), age(a), contactNumber(contact), address(addr) {}
+
+    virtual void displayInfo() const {
+        cout << "Name: " << name << "\nAge: " << age
+             << "\nContact: " << contactNumber
+             << "\nAddress: " << address << endl;
+    }
+
+    virtual void updateInfo(string newContact, string newAddress) {
+        contactNumber = newContact;
+        address = newAddress;
+        cout << "Information updated successfully.\n";
+    }
+};
+
+class Patient : public Person {
+private:
+    int patientID;
+    string medicalHistory;
+    string doctorAssigned;
+
+public:
+    Patient(string n, int a, string contact, int id, string history, string doctor)
+        : Person(n, a, contact), patientID(id), medicalHistory(history), doctorAssigned(doctor) {}
+
+    void displayInfo() const override {
+        Person::displayInfo();
+        cout << "Patient ID: " << patientID
+             << "\nMedical History: " << medicalHistory
+             << "\nDoctor Assigned: " << doctorAssigned << endl;
+    }
+};
+
+
+class Doctor : public Person {
+private:
+    string specialization;
+    double consultationFee;
+    string patientsList[10]; 
+    int patientCount;
+
+public:
+    Doctor(string n, int a, string contact, string spec, double fee)
+        : Person(n, a, contact), specialization(spec), consultationFee(fee), patientCount(0) {}
+
+    void addPatient(string patientName) {
+        if (patientCount < 10) {
+            patientsList[patientCount++] = patientName;
+        } else {
+            cout << "Cannot add more patients. Patient list is full." << endl;
+        }
+    }
+
+    void displayInfo() const override {
+        Person::displayInfo();
+        cout << "Specialization: " << specialization
+             << "\nConsultation Fee: $" << consultationFee
+             << "\nPatients: ";
+        if (patientCount == 0) {
+            cout << "No patients assigned.\n";
+        } else {
+            for (int i = 0; i < patientCount; i++) {
+                cout << patientsList[i];
+                if (i < patientCount - 1) cout << ", ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+
+class Nurse : public Person {
+private:
+    string assignedWard;
+    string shiftTimings;
+
+public:
+    Nurse(string n, int a, string contact, string ward, string shift)
+        : Person(n, a, contact), assignedWard(ward), shiftTimings(shift) {}
+
+    void displayInfo() const override {
+        Person::displayInfo();
+        cout << "Assigned Ward: " << assignedWard
+             << "\nShift Timings: " << shiftTimings << endl;
+    }
+};
+
+class Administrator : public Person {
+private:
+    string department;
+    double salary;
+
+public:
+    Administrator(string n, int a, string contact, string dept, double sal)
+        : Person(n, a, contact), department(dept), salary(sal) {}
+
+    void updateInfo(string newContact, string newAddress, double newSalary) {
+        Person::updateInfo(newContact, newAddress);
+        salary = newSalary;
+        cout << "Salary updated to: $" << salary << endl;
+    }
+
+    void displayInfo() const override {
+        Person::displayInfo();
+        cout << "Department: " << department
+             << "\nSalary: $" << salary << endl;
+    }
+};
+
+
+int main() {
+    Patient patient("John Doe", 35, "123-456-7890", 101, "Diabetes", "Dr. Smith");
+    Doctor doctor("Dr. Smith", 50, "987-654-3210", "Cardiology", 200.00);
+    Nurse nurse("Nancy Carter", 28, "111-222-3333", "ICU", "Night Shift");
+    Administrator admin("Robert Brown", 45, "444-555-6666", "HR", 5000.00);
+
+    cout << "\n--- Patient Information ---\n";
+    patient.displayInfo();
+
+    cout << "\n--- Doctor Information ---\n";
+    doctor.addPatient("John Doe");
+    doctor.displayInfo();
+
+    cout << "\n--- Nurse Information ---\n";
+    nurse.displayInfo();
+
+    cout << "\n--- Administrator Information ---\n";
+    admin.displayInfo();
+
+    cout << "\nUpdating Administrator Info...\n";
+    admin.updateInfo("777-888-9999", "New Hospital Block", 5500.00);
+
+    cout << "\n--- Updated Administrator Info ---\n";
+    admin.displayInfo();
+
+    return 0;
+}
