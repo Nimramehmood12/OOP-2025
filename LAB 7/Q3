@@ -1,0 +1,159 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Ticket {
+protected:
+    int ticketID;
+    string passengerName;
+    double price;
+    string date;
+    string destination;
+    bool isReserved;
+
+public:
+    Ticket(int id, string name, double p, string d, string dest)
+        : ticketID(id), passengerName(name), price(p), date(d), destination(dest), isReserved(false) {}
+
+    virtual void reserve() {
+        isReserved = true;
+        cout << "Ticket for " << passengerName << " has been reserved.\n";
+    }
+
+    virtual void cancel() {
+        isReserved = false;
+        cout << "Ticket for " << passengerName << " has been canceled.\n";
+    }
+
+    virtual void displayTicketInfo() const {
+        cout << "Ticket ID: " << ticketID << "\nPassenger: " << passengerName
+             << "\nPrice: $" << price << "\nDate: " << date
+             << "\nDestination: " << destination << "\nStatus: " << (isReserved ? "Reserved" : "Not Reserved") << endl;
+    }
+};
+
+
+class FlightTicket : public Ticket {
+private:
+    string airlineName;
+    string flightNumber;
+    string seatClass;
+
+public:
+    FlightTicket(int id, string name, double p, string d, string dest, string airline, string flightNum, string seatCls)
+        : Ticket(id, name, p, d, dest), airlineName(airline), flightNumber(flightNum), seatClass(seatCls) {}
+
+    void displayTicketInfo() const override {
+        Ticket::displayTicketInfo();
+        cout << "Airline: " << airlineName << "\nFlight Number: " << flightNumber
+             << "\nSeat Class: " << seatClass << endl;
+    }
+};
+
+
+class TrainTicket : public Ticket {
+private:
+    string trainNumber;
+    string coachType;
+    string departureTime;
+    int assignedSeat;
+
+public:
+    TrainTicket(int id, string name, double p, string d, string dest, string trainNum, string coach, string depTime)
+        : Ticket(id, name, p, d, dest), trainNumber(trainNum), coachType(coach), departureTime(depTime) {
+        assignedSeat = -1;
+    }
+
+    void reserve() override {
+        isReserved = true;
+        assignedSeat = rand() % 100 + 1; 
+        cout << "Train Ticket reserved for " << passengerName << ". Seat Number: " << assignedSeat << endl;
+    }
+
+    void displayTicketInfo() const override {
+        Ticket::displayTicketInfo();
+        cout << "Train Number: " << trainNumber << "\nCoach Type: " << coachType
+             << "\nDeparture Time: " << departureTime
+             << "\nSeat Number: " << (assignedSeat == -1 ? "Not Assigned" : to_string(assignedSeat)) << endl;
+    }
+};
+
+
+class BusTicket : public Ticket {
+private:
+    string busCompany;
+    int seatNumber;
+
+public:
+    BusTicket(int id, string name, double p, string d, string dest, string company, int seat)
+        : Ticket(id, name, p, d, dest), busCompany(company), seatNumber(seat) {}
+
+    void cancel() override {
+        isReserved = false;
+        cout << "Bus Ticket for " << passengerName << " has been canceled. Full refund issued.\n";
+    }
+
+    void displayTicketInfo() const override {
+        Ticket::displayTicketInfo();
+        cout << "Bus Company: " << busCompany << "\nSeat Number: " << seatNumber << endl;
+    }
+};
+
+
+class ConcertTicket : public Ticket {
+private:
+    string artistName;
+    string venue;
+    string seatType;
+
+public:
+    ConcertTicket(int id, string name, double p, string d, string dest, string artist, string v, string seat)
+        : Ticket(id, name, p, d, dest), artistName(artist), venue(v), seatType(seat) {}
+
+    void displayTicketInfo() const override {
+        Ticket::displayTicketInfo();
+        cout << "Artist: " << artistName << "\nVenue: " << venue << "\nSeat Type: " << seatType << endl;
+    }
+};
+
+
+int main() {
+    FlightTicket flight(1, "Alice Johnson", 500.00, "2025-05-10", "New York", "Emirates", "EK202", "Business");
+    TrainTicket train(2, "Bob Smith", 50.00, "2025-06-15", "Chicago", "TR123", "First Class", "08:30 AM");
+    BusTicket bus(3, "Charlie Brown", 20.00, "2025-07-01", "San Francisco", "Greyhound", 12);
+    ConcertTicket concert(4, "Daisy Adams", 150.00, "2025-08-20", "Los Angeles", "Taylor Swift", "Staples Center", "VIP");
+
+    cout << "\nInitial Ticket Information:\n";
+    flight.displayTicketInfo();
+    cout << endl;
+    train.displayTicketInfo();
+    cout << endl;
+    bus.displayTicketInfo();
+    cout << endl;
+    concert.displayTicketInfo();
+    cout << endl;
+
+    cout << "\nReserving Tickets...\n";
+    flight.reserve();
+    train.reserve();
+    bus.reserve();
+    concert.reserve();
+
+    cout << "\nUpdated Ticket Information:\n";
+    flight.displayTicketInfo();
+    cout << endl;
+    train.displayTicketInfo();
+    cout << endl;
+    bus.displayTicketInfo();
+    cout << endl;
+    concert.displayTicketInfo();
+    cout << endl;
+
+    cout << "\nCanceling Bus Ticket...\n";
+    bus.cancel();
+
+    cout << "\nFinal Ticket Information:\n";
+    bus.displayTicketInfo();
+
+    return 0;
+}
