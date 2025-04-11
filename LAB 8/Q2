@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+class Account;
+
+class Manager {
+public:
+    void deposit(Account& acc, double amount);
+    void withdraw(Account& acc, double amount);
+    void showDetails(const Account& acc);
+};
+
+class Account {
+private:
+    int accNo;
+    double balance;
+public:
+    Account(int no, double bal) : accNo(no), balance(bal) {}
+
+    friend class Manager;
+    friend void transferFunds(Account& from, Account& to, double amount);
+};
+
+void Manager::deposit(Account& acc, double amount) {
+    acc.balance += amount;
+}
+
+void Manager::withdraw(Account& acc, double amount) {
+    if (acc.balance >= amount) acc.balance -= amount;
+    else cout << "Insufficient balance!" << endl;
+}
+
+void Manager::showDetails(const Account& acc) {
+    cout << "Account No: " << acc.accNo << ", Balance: " << acc.balance << endl;
+}
+
+void transferFunds(Account& from, Account& to, double amount) {
+    if (from.balance >= amount) {
+        from.balance -= amount;
+        to.balance += amount;
+        cout << "Transferred " << amount << " from " << from.accNo << " to " << to.accNo << endl;
+    } else {
+        cout << "Insufficient balance to transfer!" << endl;
+    }
+}
+
+int main() {
+    Account acc1(101, 5000), acc2(102, 3000);
+    Manager m;
+    m.showDetails(acc1);
+    m.deposit(acc1, 1000);
+    m.withdraw(acc2, 500);
+    transferFunds(acc1, acc2, 2000);
+    m.showDetails(acc1);
+    m.showDetails(acc2);
+    return 0;
+}
