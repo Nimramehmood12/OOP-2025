@@ -1,0 +1,91 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    ifstream inputFile("vehicles.txt");
+
+    if (!inputFile.is_open())
+    {
+        cerr << "Error:Could not the open file" << endl;
+        return 1;
+    }
+    string line;
+    while (getline(inputFile, line))
+    {
+        if (line.empty())
+            continue;
+        if (line[0] == '#')
+            continue;
+
+        istringstream ss(line);
+        string type, id, name, year, extraData, certification;
+
+        getline(ss, type, ',');
+        getline(ss, id, ',');
+        getline(ss, name, ',');
+        getline(ss, year, ',');
+        getline(ss, extraData, ',');
+        getline(ss, certification);
+
+auto trim=[](string &str){
+    size_t start=str.find_first_not_of("\t");
+    if(start!=string::npos)
+    str=str.substr(start);
+};
+trim(type); trim(id); trim(name); trim(year); trim(extraData); trim(certification);
+        int yearInt = stoi(year);
+        cout << "Type: " << type << endl
+             << "ID: " << id << endl
+             << "Name: " << name << "\n"
+             << "Year: " << yearInt << "\n"
+             << "ExtraData: " << extraData << "\n"
+             << "Certification: " << certification << "\n";
+
+             size_t c=extraData.find(':');
+             if(c!=string::npos){
+                string value=extraData.substr(c+1);
+
+                if(type=="AutonomousCar"){
+                    float softwareVersion=stof(value);
+                    cout<<"Software Version(float) for "<<id<<" : "<<softwareVersion<<endl;
+                }else if(type=="Electric Vehicle"){
+                    int batteryCapacity=stoi(value);
+                    cout<<"Battery Capacity(int) for"<<id<<":"<<batteryCapacity<<endl;
+
+                }
+                else if(type=="HybridTruck"){
+                    size_t c=extraData.find("Cargo:");
+                    size_t p=extraData.find("|");
+                    size_t b=extraData.find("Battery:");
+                    if (c != string::npos && p != string::npos && b != string::npos) {
+                        
+                        size_t cargoValueStart = c + 6; 
+                        string cargoStr = extraData.substr(cargoValueStart, p- cargoValueStart);
+                        trim(cargoStr);
+                        int cargoValue = stoi(cargoStr);
+                
+                        
+                        size_t batteryValueStart = b + 8;
+                        string batteryStr = extraData.substr(batteryValueStart);
+                        trim(batteryStr);
+                        int batteryValue = stoi(batteryStr);
+                
+                        cout << "Cargo Capacity (int) for " << id << ": " << cargoValue << endl;
+                        cout << "Battery Capacity (int) for " << id << ": " << batteryValue << endl;
+                    } else {
+                        cout << "Warning: Invalid ExtraData format for HybridTruck with ID: " << id << endl;
+                    }
+                }
+            }else{
+                    cout<<"Warning : No ':' found";
+                }
+             
+    }
+
+    inputFile.close();
+    return 0;
+}
