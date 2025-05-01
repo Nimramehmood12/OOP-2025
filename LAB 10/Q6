@@ -1,0 +1,61 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+using namespace std;
+
+class InventoryItem
+{
+private:
+    int itemID;
+    char itemName[20];
+
+public:
+    void setItem(int id, const char *name)
+    {
+        itemID = id;
+        strncpy(itemName, name, sizeof(itemName) - 1);
+        itemName[sizeof(itemName) - 1] = '\0';
+    }
+
+    void display() const
+    {
+        cout << "Item id: " << itemID << endl;
+        cout << "Item Name: " << itemName << endl;
+    }
+
+    void writeToFile(const char *filename)
+    {
+        ofstream outFile(filename, ios::binary);
+        if (!outFile)
+        {
+            cerr << "Error opening file for writing.";
+            return;
+        }
+        outFile.write(reinterpret_cast<char *>(this), sizeof(*this));
+        outFile.close();
+    }
+
+    void readFromFile(const char *filename)
+    {
+        ifstream inFile(filename, ios::binary);
+        if (!inFile)
+        {
+            cerr << "Error opening file for reading.";
+            return;
+        }
+        inFile.read(reinterpret_cast<char *>(this), sizeof(*this));
+        inFile.close();
+    }
+};
+int main()
+{
+    InventoryItem item;
+    item.setItem(1, "USB Keyboard");
+
+    item.writeToFile("inventory.dat");
+
+    InventoryItem itemIn;
+    itemIn.readFromFile("inventory.dat");
+
+    itemIn.display();
+}
