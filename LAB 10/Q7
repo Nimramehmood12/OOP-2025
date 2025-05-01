@@ -1,0 +1,24 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    ofstream outFile("sensor_log.txt");
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error: Could not open the file." << endl;
+        return 1;
+    }
+    outFile << "Sensor 1: 25.5 C\n";
+    streampos p1 = outFile.tellp();
+    cout << "Write position after Sensor 1: " << p1 << endl;
+
+    outFile << "Sensor 2: 98.1 %RH\n";
+    streampos p2 = outFile.tellp();
+    cout << "Write position after Sensor 2: " << p2 << endl;
+
+    outFile.close();
+    return 0;
+}
