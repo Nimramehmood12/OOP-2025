@@ -1,0 +1,38 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    ofstream outFile("large_log.txt");
+    outFile << "This is the first part of the log.\n";
+    outFile << "This is the second part of the log.\n";
+    outFile << "And the third part.\n";
+    outFile.close();
+
+    ifstream inFile("large_log.txt");
+    if(!inFile){
+        cerr<<"Error opening file";
+        return 1;
+
+    }
+
+    char buffer[11];
+    inFile.read(buffer,10);
+    buffer[10]='\0';
+    cout<<"First 10 characters: "<<buffer<<endl;
+
+    streampos p1 = inFile.tellg();
+    cout << "Position after first read: " << p1 << endl;
+
+    char buffer2[11];
+    inFile.read(buffer2,10);
+    buffer2[10]='\0';
+    cout<<"Next 10 characters: "<<buffer2<<endl;
+
+    streampos p2 = inFile.tellg();
+    cout << "Position after second read: " << p2 << endl;
+  
+    inFile.close();
+    return 0;
+}
